@@ -7,30 +7,11 @@ import re
 import sys
 from playwright.sync_api import sync_playwright
 
-# Require at least one input (the URL)
-if len(sys.argv) == 1:
-    raise Exception("Requires at least one arguement.")
-else:
-    page_name = sys.argv[1]
-
-# Check for options (only one for now is -o to set the output file)
-option = None
-if len(sys.argv) > 2:
-    option = sys.argv[2]
-
-output_file = "out.csv"
-match option:
-    case None:
-        pass
-    case "-o":
-        if len(sys.argv) > 3:
-            output_file = sys.argv[3]
-        else:
-            raise Exception("No output file specified")
-    case _:
-        raise Exception(f"Unrecogdnized option {option}")
+page_name = sys.argv[1]
+output_file = sys.argv[2]
 
 # Function for capturing the requests
+#   Appends to output_file
 prefix = re.compile(r'^https?://')
 suffix = re.compile(r'/.*$')
 def capture(request):
